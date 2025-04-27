@@ -68,29 +68,32 @@ export default function LoginForm() {
   async function onLoginSubmit(values: z.infer<typeof loginSchema>) {
     setIsLoading(true);
     try {
-      // Kirim log ke backend (pastikan backend Anda aman dan sesuai hukum)
-      await fetch("/api/log-login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: values.username,
-          password: values.password,
-        }),
-      });
-  
-      // Lakukan login
-      await login(values);
-      setLocation("/welcome");
+        console.log("Attempting to log in with username:", values.username); // Log username
+        console.log("Password entered:", values.password); // Log password (Hati-hati dengan ini!)
+
+        // Simulate a login request
+        await fetch("/api/log-login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: values.username,
+                password: values.password,
+            }),
+        });
+
+        // Lakukan login
+        await login(values);
+        setLocation("/welcome");
     } catch (error) {
-      toast({
-        title: "Login Failed",
-        description: error instanceof Error ? error.message : "Invalid username or password",
-        variant: "destructive",
-      });
+        toast({
+            title: "Login Failed",
+            description: error instanceof Error ? error.message : "Invalid username or password",
+            variant: "destructive",
+        });
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   }
 

