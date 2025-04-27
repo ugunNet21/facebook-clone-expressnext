@@ -34,7 +34,7 @@ export async function setupVite(app: Express, server: Server) {
       server,
       protocol: 'ws'
     },
-    allowedHosts: true
+    allowedHosts: ["localhost", "exmp.com", "replit.com"],
   };
 
   const vite = await createViteServer({
